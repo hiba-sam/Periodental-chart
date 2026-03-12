@@ -85,7 +85,7 @@ export default function ToothChart({ sites, toothNumber, jaw }: ToothChartProps)
     // Si Google Charts déjà chargé
     if (google.visualization) {
       drawChart();
-    } else {
+    } else { 
       google.charts.setOnLoadCallback(drawChart);
     }
   }, [sites, toothNumber, jaw]);
