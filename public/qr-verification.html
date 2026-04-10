@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Générer QR Code de Vérification</title>
+  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .qr-container {
+      margin: 20px 0;
+      text-align: center;
+    }
+    canvas {
+      border: 1px solid #ddd;
+      padding: 10px;
+      margin-top: 20px;
+    }
+    .instructions {
+      background-color: #f8f9fa;
+      padding: 15px;
+      border-radius: 5px;
+      margin-top: 20px;
+    }
+    .button-group {
+      margin-top: 20px;
+    }
+    button {
+      padding: 10px 15px;
+      margin: 0 5px;
+      background-color: #4a5568;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #2d3748;
+    }
+    select, input {
+      padding: 8px;
+      margin: 5px 0;
+      width: 100%;
+      max-width: 400px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Générateur de QR Code pour Vérification d'Ordonnance</h1>
+    
+    <div class="form-container">
+      <h2>Paramètres du QR Code</h2>
+      
+      <div>
+        <label for="scenario">Scénario de test:</label>
+        <select id="scenario">
+          <option value="valid">Ordonnance valide</option>
+          <option value="expired">Ordonnance expirée</option>
+          <option value="invalid">Signature non vérifiée</option>
+        </select>
+      </div>
+      
+      <div>
+        <label for="custom-url">URL personnalisée (optionnel):</label>
+        <input type="text" id="custom-url" placeholder="https://example.com/verification?id=123">
+      </div>
+      
+      <div class="button-group">
+        <button onclick="generateQR()">Générer QR Code</button>
+        <button onclick="downloadQR()">Télécharger QR Code</button>
+      </div>
+    </div>
+    
+    <div class="qr-container">
+      <h2>QR Code</h2>
+      <div id="qrcode"></div>
+      <p id="qr-url"></p>
+    </div>
+    
+    <div class="instructions">
+      <h2>Instructions</h2>
+      <ol>
+        <li>Sélectionnez un scénario de test dans la liste déroulante</li>
+        <li>Cliquez sur "Générer QR Code" pour créer un QR code</li>
+        <li>Scannez le QR code avec votre téléphone pour vérifier qu'il fonctionne</li>
+        <li>Vous pouvez télécharger le QR code en cliquant sur "Télécharger QR Code"</li>
+        <li>Pour utiliser une URL personnalisée, entrez-la dans le champ correspondant</li>
+      </ol>
+      <p><strong>Note:</strong> Ce générateur crée des QR codes qui pointent vers la page de vérification d'ordonnance.</p>
+    </div>
+  </div>
+  
+  <script>
+    // Fonction pour générer le QR code
+    function generateQR() {
+      // Récupérer le scénario sélectionné
+      const scenario = document.getElementById('scenario').value;
+      
+      // Récupérer l'URL personnalisée si elle existe
+      const customUrl = document.getElementById('custom-url').value.trim();
+      
+      // Déterminer l'ID de l'ordonnance en fonction du scénario
+      let prescriptionId;
+      switch(scenario) {
+        case 'expired':
+          prescriptionId = 'ORD-20250201-ABC';
+          break;
+        case 'invalid':
+          prescriptionId = 'ORD-20250320-DEF';
+          break;
+        default:
+          prescriptionId = 'ORD-20250413-XYZ';
+      }
+      
+      // Construire l'URL de vérification
+      let verificationUrl;
+      if (customUrl) {
+        verificationUrl = customUrl;
+      } else {
+        // Utiliser l'origine de la fenêtre actuelle
+        const origin = window.location.origin;
+        verificationUrl = `${origin}/verif?id=${prescriptionId}`;
+      }
+      
+      // Afficher l'URL générée
+      document.getElementById('qr-url').textContent = `URL: ${verificationUrl}`;
+      
+      // Effacer le QR code précédent
+      document.getElementById('qrcode').innerHTML = '';
+      
+      // Générer le QR code
+      QRCode.toCanvas(document.getElementById('qrcode'), verificationUrl, {
+        errorCorrectionLevel: 'H',
+        margin: 4,
+        width: 300,
+        scale: 5,
+        color: {
+          dark: '#000000',
+          light: '#ffffff'
+        }
+      }, function(error) {
+        if (error) console.error(error);
+        console.log('QR code généré avec succès!');
+      });
+    }
+    
+    // Fonction pour télécharger le QR code
+    function downloadQR() {
+      const canvas = document.querySelector('#qrcode canvas');
+      if (!canvas) {
+        alert('Veuillez d\'abord générer un QR code.');
+        return;
+      }
+      
+      const link = document.createElement('a');
+      link.download = 'qr-verification.png';
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    }
+    
+    // Générer un QR code par défaut au chargement de la page
+    window.onload = generateQR;
+  </script>
+</body>
+</html>

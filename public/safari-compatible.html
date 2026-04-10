@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>QR Code Compatible Safari</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+      line-height: 1.6;
+    }
+    h1 {
+      color: #333;
+      text-align: center;
+    }
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .qr-container {
+      margin: 20px 0;
+      text-align: center;
+    }
+    .qr-image {
+      border: 1px solid #ddd;
+      padding: 10px;
+      max-width: 100%;
+      height: auto;
+    }
+    .instructions {
+      background-color: #f8f9fa;
+      padding: 15px;
+      border-radius: 5px;
+      margin-top: 20px;
+    }
+    .button {
+      display: inline-block;
+      padding: 10px 20px;
+      margin: 10px 0;
+      background-color: #0070f3;
+      color: white;
+      border-radius: 5px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>QR Code Compatible Safari</h1>
+    
+    <div class="qr-container">
+      <h2>QR Code pour Ordonnance Valide</h2>
+      <p>Ce QR code pointe vers une URL publique qui fonctionne sur tous les navigateurs, y compris Safari.</p>
+      <img class="qr-image" src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://example.com/verif?id=ORD-20250413-XYZ" alt="QR Code Ordonnance Valide">
+      <p>URL: https://example.com/verif?id=ORD-20250413-XYZ</p>
+    </div>
+    
+    <div class="qr-container">
+      <h2>QR Code pour Ordonnance Expiru00e9e</h2>
+      <img class="qr-image" src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://example.com/verif?id=ORD-20250201-ABC" alt="QR Code Ordonnance Expiru00e9e">
+      <p>URL: https://example.com/verif?id=ORD-20250201-ABC</p>
+    </div>
+    
+    <div class="qr-container">
+      <h2>QR Code pour Signature Invalide</h2>
+      <img class="qr-image" src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://example.com/verif?id=ORD-20250320-DEF" alt="QR Code Signature Invalide">
+      <p>URL: https://example.com/verif?id=ORD-20250320-DEF</p>
+    </div>
+    
+    <div class="instructions">
+      <h2>Instructions</h2>
+      <ol>
+        <li>Scannez l'un des QR codes ci-dessus avec votre tu00e9lu00e9phone</li>
+        <li>Vous serez redirigu00e9 vers une page web d'exemple</li>
+        <li>Pour l'intu00e9grer dans votre application, remplacez "example.com" par votre domaine ru00e9el</li>
+        <li>Vous pouvez tu00e9lu00e9charger ces images et les utiliser dans vos PDF</li>
+      </ol>
+      <p><strong>Note:</strong> Ces QR codes sont gu00e9nu00e9ru00e9s par un service en ligne fiable et sont compatibles avec tous les navigateurs, y compris Safari sur iOS.</p>
+    </div>
+    
+    <a href="https://goqr.me/" class="button" target="_blank">Gu00e9nu00e9rer d'autres QR codes</a>
+  </div>
+</body>
+</html>
